@@ -104,7 +104,7 @@ async function startServer() {
                 
                 <p>As a thank-you for joining the waitlist, I’ve added you to my <strong>beta list</strong>, so you’ll get early access to Zysculpt before it opens to the public.</p>
                 
-                <p>I’m curious how you heard about Zysculpt and what you’re hoping it can help with. If you reply and tell me, I’ll also add you to another list for <strong>extra AI credits</strong> when we launch. Early supporters get special treatment :)</p>
+                <p>I’m curious how you heard about Zysculpt and what you’re hoping it can help you with. If you reply and tell me, I’ll also add you to another list for <strong>extra AI credits</strong> when we launch. Early supporters get special treatment :)</p>
                 
                 <h3 style="color: #000; margin-top: 24px;">Why Zysculpt?</h3>
                 
@@ -116,9 +116,9 @@ async function startServer() {
                 
                 <h3 style="color: #000; margin-top: 24px;">When will Zysculpt launch?</h3>
                 
-                <p>The first version will be ready for beta testing before the end of June, and you’ll receive your early access invite by email.</p>
+                <p>The first version will be ready for beta testing <strong>before the end of June</strong>, and you’ll receive your early access invite by email.</p>
                 
-                <p>In the meantime, my team and I will be sharing practical tips to help you move closer to your career goals on LinkedIn, Twitter, Instagram, and Facebook. Come hang out with us there.</p>
+                <p>In the meantime, my team and I will be sharing practical tips to help you move closer to your career goals on <a href="https://www.linkedin.com/company/zysculpt" style="text-decoration: underline; color: #000;">LinkedIn</a>, <a href="https://x.com/zysculpt" style="text-decoration: underline; color: #000;">Twitter</a>, <a href="https://www.instagram.com/zysculpt" style="text-decoration: underline; color: #000;">Instagram</a>, and <a href="https://www.facebook.com/zysculpt/" style="text-decoration: underline; color: #000;">Facebook</a>. Come hang out with us there.</p>
                 
                 <br>
                 <p>Cheers,</p>

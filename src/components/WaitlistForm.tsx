@@ -51,8 +51,8 @@ export default function WaitlistForm() {
               animate={{ opacity: 1, scale: 1 }}
               className={`border rounded-2xl p-8 text-center ${status === 'success' ? 'bg-green-50 border-green-100' : 'bg-blue-50 border-blue-100'}`}
             >
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${status === 'success' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                <CheckCircle className="w-8 h-8" />
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl ${status === 'success' ? 'bg-green-100' : 'bg-blue-100'}`}>
+                {status === 'success' ? '😉' : '😏'}
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
                 {status === 'success' ? "You're on the list!" : "You're already on our list!"}
@@ -103,12 +103,11 @@ export default function WaitlistForm() {
                 </div>
                 <div className="w-1/2">
                   <label htmlFor="lastName" className="block text-sm font-bold text-gray-700 mb-2">
-                    Last Name
+                    Last Name <span className="text-gray-400 font-normal">(Optional)</span>
                   </label>
                   <input
                     type="text"
                     id="lastName"
-                    required
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#CCFF00] focus:ring-2 focus:ring-[#CCFF00]/50 outline-none transition-all"

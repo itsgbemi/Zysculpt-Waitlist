@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function About() {
   return (
@@ -13,10 +14,10 @@ export default function About() {
         </div>
         
         <div className="max-w-4xl mx-auto relative z-10">
-          <a href="/" className="inline-flex items-center gap-2 text-black/70 font-semibold mb-8 hover:text-black transition-colors">
+          <Link to="/" className="inline-flex items-center gap-2 text-black/70 font-semibold mb-8 hover:text-black transition-colors">
             <ArrowLeft className="w-5 h-5" />
             Back to Waitlist
-          </a>
+          </Link>
           <h1 className="text-5xl lg:text-7xl font-extrabold mb-6">About Zysculpt</h1>
         </div>
       </div>

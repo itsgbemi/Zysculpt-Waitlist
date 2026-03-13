@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion } from 'motion/react';
+import { Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function WaitlistForm() {
   const [email, setEmail] = useState('');
@@ -148,7 +149,7 @@ export default function WaitlistForm() {
                     </div>
                   </div>
                   <label htmlFor="human" className="text-xs text-gray-600 select-none cursor-pointer leading-relaxed">
-                    By submitting this form, you consent to receive marketing and product-related emails from Zysculpt, including waitlist updates, launch announcements, and special offers. You may withdraw your consent at any time by clicking the unsubscribe link in our emails. Your information will be handled in accordance with our <a href="/privacy-policy" className="underline font-bold hover:text-[#99CC00]">privacy policy</a>.
+                    By submitting this form, you consent to receive marketing and product-related emails from Zysculpt, including waitlist updates, launch announcements, and special offers. You may withdraw your consent at any time by clicking the unsubscribe link in our emails. Your information will be handled in accordance with our <Link to="/privacy-policy" className="underline font-bold hover:text-[#99CC00]">privacy policy</Link>.
                   </label>
                 </div>
               </div>
@@ -169,9 +170,9 @@ export default function WaitlistForm() {
               </button>
 
               <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
-                <a href="/about" className="text-gray-600 font-semibold text-sm hover:text-[#99CC00] hover:underline">
+                <Link to="/about" className="text-gray-600 font-semibold text-sm hover:text-[#99CC00] hover:underline">
                   Learn more about Zysculpt
-                </a>
+                </Link>
 
               </div>
             </motion.form>
@@ -179,11 +180,12 @@ export default function WaitlistForm() {
         </div>
       </div>
 
+
       {/* Right Section - Image */}
       <div className="lg:w-[55%] relative overflow-hidden min-h-[400px] lg:min-h-screen order-1 lg:order-2">
         <img 
-          src="https://res.cloudinary.com/dqhawdcol/image/upload/v1772652870/epcarz1lri97pkfsjuc6.png" 
-          alt="Zysculpt AI Career Assistant" 
+          src="https://res.cloudinary.com/dqhawdcol/image/upload/v1773385850/ueuklwa1fbv3dmlfrolu.png" 
+          alt="Woman smiling at a smartphone with floating UI notification bubbles for new job onboarding." 
           className="absolute inset-0 w-full h-full object-cover"
           referrerPolicy="no-referrer"
         />

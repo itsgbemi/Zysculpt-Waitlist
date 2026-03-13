@@ -3,31 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WaitlistForm from './components/WaitlistForm';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import About from './components/About';
+import NotFound from './components/NotFound';
 
 export default function App() {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
-
-  useEffect(() => {
-    const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  // Simple client-side routing
-  if (currentPath === '/privacy-policy') {
-    return <PrivacyPolicy />;
-  }
-  
-  if (currentPath === '/about') {
-    return <About />;
-  }
-
-  return <WaitlistForm />;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<WaitlistForm />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
 }

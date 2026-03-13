@@ -1,14 +1,15 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-white font-sans p-8 lg:p-16">
       <div className="max-w-3xl mx-auto">
-        <a href="/" className="inline-flex items-center gap-2 text-[#99CC00] font-semibold mb-8 hover:underline">
+        <Link to="/" className="inline-flex items-center gap-2 text-[#99CC00] font-semibold mb-8 hover:underline">
           <ArrowLeft className="w-5 h-5" />
           Back to Waitlist
-        </a>
+        </Link>
         
         <h1 className="text-4xl font-extrabold mb-8">Privacy Policy</h1>
         

@@ -4,6 +4,11 @@ import { SendMailClient } from "zeptomail";
 import { createClient } from "@supabase/supabase-js";
 import path from "path";
 import { fileURLToPath } from "url";
+import cron from "node-cron";
+import * as dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +24,34 @@ if (!supabase) {
   console.warn("Supabase credentials missing. Database integration disabled.");
 }
 
+// Helper function for keep-alive logic
+async function runKeepAlive() {
+  if (supabase) {
+    console.log("Running Supabase keep-alive...");
+    try {
+      const { data, error } = await supabase
+        .from('waitlist')
+        .select('id')
+        .limit(1);
+      
+      if (error) {
+        console.error("Keep-alive query failed:", error.message);
+        return { success: false, error: error.message };
+      } else {
+        console.log("Keep-alive query successful.");
+        return { success: true };
+      }
+    } catch (err: any) {
+      console.error("Keep-alive error:", err);
+      return { success: false, error: err.message };
+    }
+  }
+  return { success: false, error: "Supabase not initialized" };
+}
+
+// Keep-alive cron job for persistent environments (node-cron)
+cron.schedule("0 0 * * *", runKeepAlive);
+
 async function startServer() {
   const app = express();
   const PORT = 3000;
@@ -30,8 +63,15 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
+  // Endpoint for Vercel Cron Jobs
+  app.get("/api/cron/keep-alive", async (req, res) => {
+    const result = await runKeepAlive();
+    res.json(result);
+  });
+
   app.post("/api/waitlist", async (req, res) => {
     const { email, firstName, lastName } = req.body;
+    console.log(`Received waitlist request for: ${email}`);
 
     if (!email) {
       return res.status(400).json({ error: "Email is required" });
@@ -40,6 +80,7 @@ async function startServer() {
     // 1. Save to Supabase (if configured)
     if (supabase) {
       try {
+        console.log("Saving to Supabase...");
         const { error } = await supabase
           .from('waitlist')
           .insert([
@@ -52,38 +93,37 @@ async function startServer() {
           ]);
 
         if (error) {
-          // Check for unique constraint violation (duplicate email)
-          if (error.code === '23505') { // Postgres unique violation code
+          if (error.code === '23505') {
+            console.log("Duplicate email detected.");
             return res.status(409).json({ error: "This email is already on the waitlist." });
           }
-          console.error("Supabase error:", error);
-          // Decide if we want to fail the request or continue. 
-          // Usually, if DB fails, we should probably fail the request unless email is critical.
-          // Let's log it but maybe continue to email if it's just a DB issue? 
-          // No, better to fail so user knows something is wrong, or at least consistent.
-          return res.status(500).json({ error: "Failed to save to waitlist database." });
+          console.error("Supabase error detail:", error);
+          return res.status(500).json({ error: `Database error: ${error.message}` });
         }
-      } catch (dbError) {
+        console.log("Successfully saved to Supabase.");
+      } catch (dbError: any) {
         console.error("Database exception:", dbError);
-        return res.status(500).json({ error: "Database error occurred." });
+        return res.status(500).json({ error: `Database exception: ${dbError.message}` });
       }
+    } else {
+      console.warn("Supabase not configured, skipping DB save.");
     }
 
     // 2. Send Email via ZeptoMail
-    const url = "api.zeptomail.com/";
+    const url = "https://api.zeptomail.com/"; // Added https://
     const token = process.env.ZEPTOMAIL_API_KEY;
     const senderEmail = process.env.ZEPTOMAIL_SENDER_EMAIL;
     const senderName = process.env.ZEPTOMAIL_SENDER_NAME || "Zysculpt Team";
 
     if (!token || !senderEmail) {
         console.error("ZEPTOMAIL_API_KEY or ZEPTOMAIL_SENDER_EMAIL is missing");
-        return res.status(500).json({ error: "Server configuration error: Missing API Key or Sender Email. Please check your environment variables." });
+        return res.status(500).json({ error: "Server configuration error: Missing ZeptoMail credentials." });
     }
 
     let client = new SendMailClient({url, token});
 
     try {
-        console.log(`Sending email to ${email} from ${senderEmail}`);
+        console.log(`Sending email to ${email} via ZeptoMail...`);
         await client.sendMail({
             "from": {
                 "address": senderEmail,
